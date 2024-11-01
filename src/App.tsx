@@ -1,7 +1,8 @@
+import CalorieTracker from './Containers/CalorieTracker/CalorieTracker.tsx';
 
 const App = () => (
   <>
-    I'm starting my home work #66! ^_^
+    <CalorieTracker/>
   </>
 );
 
