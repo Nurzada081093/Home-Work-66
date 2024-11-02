@@ -5,11 +5,13 @@ import { IApiMeals, IMutation } from '../../types';
 import axiosAPI from '../../axiosAPI.ts';
 import { toast } from 'react-toastify';
 import Louder from '../../Components/UI/Louder/Louder.tsx';
+import Cards from '../../Components/Cards/Cards.tsx';
 
 
 const Home = () => {
   const [allMeals, setAllMeals] = useState<IMutation[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
 
   const fetchMeals = useCallback( async () => {
     try {
@@ -44,7 +46,14 @@ const Home = () => {
     void fetchMeals();
   }, [fetchMeals]);
 
-  console.log(allMeals);
+  const onDeleteClick = (id: string) => {
+    console.log(id);
+
+  };
+
+  const onEditClick = (id: string) => {
+    console.log(id);
+  };
 
   return (
     <>
@@ -58,6 +67,7 @@ const Home = () => {
               <span>Add new meal</span>
             </Button>
           </Box>
+          <Cards meals={allMeals} isLoading={isLoading} onDeleteClick={onDeleteClick} onEditClick={onEditClick}/>
         </Container>
       }
     </>

@@ -5,6 +5,14 @@ export const mealsTime = [
   {name: 'Dinner', id: 'dinner'},
 ];
 
+export const wordTransform = (wd: string) => {
+  const firstLetter = wd.charAt(0);
+  const firstLetterUpper = firstLetter.toUpperCase();
+  const lastLetterWord = wd.slice(1);
+  return firstLetterUpper + lastLetterWord;
+};
+
+
 
 
 
