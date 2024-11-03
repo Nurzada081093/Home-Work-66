@@ -11,7 +11,7 @@ interface Props {
 
 const Cards:React.FC<Props> = ({meals, isLoading, onDeleteClick}) => {
   return (
-    <Box sx={{display: 'flex', justifyContent: 'space-between', marginTop: '30px', flexWrap: 'wrap'}}>
+    <Box sx={{display: 'flex', justifyContent: 'space-around', marginTop: '30px', flexWrap: 'wrap'}}>
       {meals.map((meal) => (
         <CardItem key={meal.id} meal={meal} isLoading={isLoading} onDeleteClick={() => onDeleteClick(meal.id)}/>
       ))}

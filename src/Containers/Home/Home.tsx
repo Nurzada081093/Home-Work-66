@@ -7,11 +7,10 @@ import { toast } from 'react-toastify';
 import Louder from '../../Components/UI/Louder/Louder.tsx';
 import Cards from '../../Components/Cards/Cards.tsx';
 
-
 const Home = () => {
   const [allMeals, setAllMeals] = useState<IMutation[]>([]);
+  const [totalCalories, setTotalCalories] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
 
   const fetchMeals = useCallback( async () => {
     try {
@@ -26,12 +25,20 @@ const Home = () => {
 
       if (responseData) {
         const mealsFromAPI = Object.keys(responseData).map((meal) => {
+          const meals = {...responseData[meal]};
+
           return {
-            ...responseData[meal],
+            ...meals,
             id: meal,
           };
         });
 
+        const mealPrice: number = mealsFromAPI.reduce((acc, meal) => {
+          acc += meal.calories;
+          return acc;
+        }, 0);
+
+        setTotalCalories(mealPrice);
         setAllMeals(mealsFromAPI);
       }
     } catch (e) {
@@ -39,7 +46,6 @@ const Home = () => {
     } finally {
       setIsLoading(false);
     }
-
   }, []);
 
   useEffect(() => {
@@ -47,10 +53,10 @@ const Home = () => {
   }, [fetchMeals]);
 
   const onDeleteClick = async (id: string) => {
-    console.log(id);
     try {
       setIsLoading(true);
       await axiosAPI.delete(`meals/${id}.json`);
+      await fetchMeals();
     } catch (e) {
       toast.error(`${e}`);
     } finally {
@@ -64,13 +70,17 @@ const Home = () => {
         <Container sx={{marginTop: '50px'}}>
           <Box sx={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
             <Typography variant="h6" component="div">
-              Total calories: <strong>0 kcal</strong>
+              Total calories: <strong>{totalCalories} kcal</strong>
             </Typography>
             <Button type="button" variant="contained" to={"/meals/new"} component={NavLink} sx={{fontWeight: 'bold', width: '200px', height: '50px', textAlign: 'center'}}>
               <span>Add new meal</span>
             </Button>
           </Box>
-          <Cards meals={allMeals} isLoading={isLoading} onDeleteClick={onDeleteClick}/>
+          {allMeals.length <= 0 ?
+            <Typography variant="h5" component="h2" sx={{margin: '15% 0', textAlign: 'center'}}>Your meal list is empty, please add something!</Typography>
+            :
+            <Cards meals={allMeals} isLoading={isLoading} onDeleteClick={onDeleteClick}/>
+          }
         </Container>
       }
     </>

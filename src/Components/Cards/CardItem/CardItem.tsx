@@ -31,7 +31,7 @@ const CardItem: React.FC<Props> = ({meal, isLoading = false, onDeleteClick}) => 
 
   return (
     <>
-      <Card sx={{ width: '300px', marginBottom: '30px', marginRight: '20px'}}>
+      <Card sx={{ width: '350px', marginBottom: '30px', marginRight: '20px'}}>
         <div>
           <Typography level="title-lg">{mealTimeName}</Typography>
           <Typography level="body-md">{meal.description}</Typography>
@@ -45,14 +45,16 @@ const CardItem: React.FC<Props> = ({meal, isLoading = false, onDeleteClick}) => 
             alt="Breakfast"
           />
         </AspectRatio>
-        <Box sx={{display: 'flex', justifyContent: 'space-around'}}>
-          <Button sx={{width: '30px'}} type="button" onClick={onDeleteClick}>
-            <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/trash--v1.png" alt="trash--v1"/>
+        <Box sx={{display: 'flex', justifyContent: 'space-around', margin: '20px 0'}}>
+          <Button disabled={isLoading} variant="contained"
+                  sx={{width: '100px', height: '47px'}}
+                  type="button" onClick={onDeleteClick}>
+            <img width="30" height="30" src="https://img.icons8.com/material-rounded/24/FFFFFF/trash.png" alt="trash"/>
             {isLoading ? <ButtonLoadingStyle/> : null}
           </Button>
-            <Button sx={{width: '30px'}} type="button" to={`/meals/${meal.id}/edit`} component={NavLink}>
-            <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/create-new.png" alt="create-new"/>
-            {isLoading ? <ButtonLoadingStyle/> : null}
+          <Button sx={{width: '100px', height: '47px'}} type="button" variant="contained"  to={`/meals/${meal.id}/edit`} component={NavLink}>
+          <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/FFFFFF/create-new.png"
+                 alt="create-new"/>
           </Button>
         </Box>
       </Card>
