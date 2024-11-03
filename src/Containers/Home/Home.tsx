@@ -46,13 +46,16 @@ const Home = () => {
     void fetchMeals();
   }, [fetchMeals]);
 
-  const onDeleteClick = (id: string) => {
+  const onDeleteClick = async (id: string) => {
     console.log(id);
-
-  };
-
-  const onEditClick = (id: string) => {
-    console.log(id);
+    try {
+      setIsLoading(true);
+      await axiosAPI.delete(`meals/${id}.json`);
+    } catch (e) {
+      toast.error(`${e}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -67,7 +70,7 @@ const Home = () => {
               <span>Add new meal</span>
             </Button>
           </Box>
-          <Cards meals={allMeals} isLoading={isLoading} onDeleteClick={onDeleteClick} onEditClick={onEditClick}/>
+          <Cards meals={allMeals} isLoading={isLoading} onDeleteClick={onDeleteClick}/>
         </Container>
       }
     </>

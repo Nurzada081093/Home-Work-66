@@ -29,11 +29,12 @@ const initialMeal = {
 interface IProps {
   addNewMeal: (meal:IFormMeal) => void;
   isLoading?: boolean;
-
+  editMeal?: IFormMeal;
+  isMeal?: boolean;
 }
 
-const CalorieTrackerForm: React.FC<IProps> = ({addNewMeal, isLoading}) => {
-  const [newMeal, setNewMeal] = useState<IFormMeal>(initialMeal);
+const CalorieTrackerForm: React.FC<IProps> = ({addNewMeal, isLoading = false, editMeal = initialMeal, isMeal = false}) => {
+  const [newMeal, setNewMeal] = useState<IFormMeal>(editMeal);
 
   const onChange = (e: SelectChangeEvent<string> | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -56,8 +57,6 @@ const CalorieTrackerForm: React.FC<IProps> = ({addNewMeal, isLoading}) => {
         calories: Number(newMeal.calories),
       });
     }
-
-
   };
 
 
@@ -65,7 +64,7 @@ const CalorieTrackerForm: React.FC<IProps> = ({addNewMeal, isLoading}) => {
     <>
       <Container>
         <Typography variant="h3" sx={{ textAlign: 'center', color: 'black', padding: '20px 0', fontWeight: 0 }}>
-          Add new meal
+          {isMeal ? 'Edit the ' : 'Add new '}meal
         </Typography>
         <form onSubmit={onSubmitMeal} style={{ border: '1px solid lightgrey', width: '70%', margin: '0 auto 70px', padding: '50px 0', borderRadius: '20px', backgroundColor: 'white' }}>
           <Grid container spacing={2} sx={{ mx: 'auto', width: '80%' }}>
@@ -115,10 +114,12 @@ const CalorieTrackerForm: React.FC<IProps> = ({addNewMeal, isLoading}) => {
               </Box>
             </Grid>
             <Grid size={12}>
-              <Button type="submit" variant="contained" sx={{fontWeight: 'bold', width: '200px', height: '50px', textAlign: 'center'}}>
-                <span>Add new meal</span>
-                {isLoading ? <ButtonLoadingStyle/> : null}
-              </Button>
+              <Box sx={{textAlign: 'center'}}>
+                <Button disabled={isLoading} type="submit" variant="contained" sx={{fontWeight: 'bold', width: '200px', height: '50px', textAlign: 'center'}}>
+                  <span>{isMeal ? 'Edit' : 'Add'}</span>
+                  {isLoading ? <ButtonLoadingStyle/> : null}
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </form>

@@ -1,24 +1,20 @@
 import Typography from '@mui/joy/Typography';
-// import IconButton from '@mui/joy/IconButton';
-// import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
 import AspectRatio from '@mui/joy/AspectRatio';
-// import CardContent from '@mui/joy/CardContent';
 import Card from '@mui/joy/Card';
 import { IMutation } from '../../../types';
 import React, { MouseEventHandler } from 'react';
 import { wordTransform } from '../../../Constantas.ts';
-// import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Box, Button } from '@mui/material';
 import ButtonLoadingStyle from '../../UI/ButtonLoadingStyle/ButtonLoadingStyle.tsx';
+import { NavLink } from 'react-router-dom';
 
 interface Props {
   meal: IMutation;
   isLoading?: boolean;
   onDeleteClick: MouseEventHandler<HTMLButtonElement>;
-  onEditClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const CardItem: React.FC<Props> = ({meal, isLoading = false, onDeleteClick, onEditClick}) => {
+const CardItem: React.FC<Props> = ({meal, isLoading = false, onDeleteClick}) => {
 
   const mealTimeName: string = wordTransform(meal.time);
   let imageUrl;
@@ -54,7 +50,7 @@ const CardItem: React.FC<Props> = ({meal, isLoading = false, onDeleteClick, onEd
             <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/trash--v1.png" alt="trash--v1"/>
             {isLoading ? <ButtonLoadingStyle/> : null}
           </Button>
-          <Button sx={{width: '30px'}} type="button" onClick={onEditClick}>
+            <Button sx={{width: '30px'}} type="button" to={`/meals/${meal.id}/edit`} component={NavLink}>
             <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/create-new.png" alt="create-new"/>
             {isLoading ? <ButtonLoadingStyle/> : null}
           </Button>
